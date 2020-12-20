@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::resource('question', App\Http\Controllers\QuestionController::class);
 Route::resource('quest', App\Http\Controllers\QuestController::class);

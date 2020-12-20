@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import { TopComponent } from "./Top";
+import { QuestionComponent } from "./Question";
 import { QuestComponent } from "./Quest";
 
 export const AppComponent = () => (
@@ -18,6 +19,7 @@ export const AppComponent = () => (
       </Route>
 
       <Route path="/question">
+        <QuestionComponent />
       </Route>
 
       <Route path="/quest">
