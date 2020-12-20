@@ -16,14 +16,14 @@ export class TopComponent extends React.Component<Props, States> {
         <div className="row justify-content-center">
           <div className="col">
             <Paper className="m-2 p-2" elevation={3}>
-              <Link to="/maintenance">
+              <Link to="/question">
                 <Button variant="contained" color="default">問題を作る</Button>
               </Link>
             </Paper>
           </div>
           <div className="col">
             <Paper className="m-2 p-2" elevation={3}>
-              <Link to="/setting">
+              <Link to="/quest">
                 <Button variant="contained" color="primary">ゲーム作る</Button>
               </Link>
             </Paper>

@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { TopComponent } from "./Top";
-import { SettingComponent } from "./Setting";
+import { QuestComponent } from "./Quest";
 
 export const AppComponent = () => (
   <Router>
@@ -17,11 +17,11 @@ export const AppComponent = () => (
         <TopComponent />
       </Route>
 
-      <Route path="/maintenance">
+      <Route path="/question">
       </Route>
 
-      <Route path="/setting">
-        <SettingComponent />
+      <Route path="/quest">
+        <QuestComponent />
       </Route>
 
       <Route path="/game">

@@ -11,13 +11,13 @@ interface Props {
 interface States {
 }
 
-export class SettingComponent extends React.Component<Props, States> {
+export class QuestComponent extends React.Component<Props, States> {
   http: HttpService = new HttpService;
 
   constructor(props: Props) {
     super(props);
 
-    this.http.get('settings');
+    this.http.get('quests');
   }
 
   render() {
