@@ -11,7 +11,7 @@ export class QuestionService extends HttpService {
   private basePath: string = "question";
 
   list() {
-    return this.axios.get<IQuestion[]>(this.basePath);
+    return this.axios.get<{ [k: string]: IQuestion }>(this.basePath);
   }
 
   detail(id: number) {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Button, Breadcrumbs, Typography } from "@material-ui/core";
+import { Grid, Button, Breadcrumbs, Typography } from "@material-ui/core";
 
 import { QuestionService, IQuestion } from "../../service/Question";
 import { QuestionDetailComponent } from "./Detail";
@@ -10,8 +10,8 @@ interface Props {
 }
 
 interface States {
-  questions: IQuestion[];
-  editing: number;
+  questions: { [k: string]: IQuestion };
+  editing: string;
 }
 
 export class QuestionComponent extends React.Component<Props, States> {
@@ -20,7 +20,7 @@ export class QuestionComponent extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { questions: [], editing: -1 };
+    this.state = { questions: {}, editing: "" };
     this.questionService.list().then(res => {
       this.setState({ questions: res.data });
     });
@@ -28,31 +28,35 @@ export class QuestionComponent extends React.Component<Props, States> {
 
   private add() {
     const question: IQuestion = {} as IQuestion;
-    const editing = this.state.questions.length;
-    const questions = [ ...this.state.questions, question ];
+    const editing = (Object.keys(this.state.questions).length + 1).toString();
+    const { questions } = this.state;
+
+    questions[editing] = question;
 
     this.setState({ questions, editing });
   }
 
   render() {
     return (
-      <div className="container mt-4">
-        <Breadcrumbs>
+      <>
+        <Breadcrumbs className="mb-4">
           <Link to="/top">Top</Link>
           <Typography color="textPrimary">問題作成</Typography>
         </Breadcrumbs>
 
-        <div className="row justify-content-center my-3">
-          {this.state.questions.map((question, i) => <QuestionDetailComponent key={i} question={question} editing={i === this.state.editing} />)}
-        </div>
+        <Grid container direction="column" spacing={2}>
+          {Object.keys(this.state.questions).map(id => (
+            <QuestionDetailComponent key={id} question={this.state.questions[id]} editing={id === this.state.editing} />
+          ))}
+        </Grid>
 
         <Button
           variant="contained"
           color="primary"
           onClick={this.add.bind(this)}
-          disabled={this.state.editing >= 0}
+          disabled={this.state.editing !== ""}
         >問題を追加</Button>
-      </div>
+      </>
     );
   }
 }

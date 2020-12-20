@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 
-import { Box, Button, TextField } from "@material-ui/core";
+import { Grid, Paper, Button, TextField } from "@material-ui/core";
 
 import { QuestService, IQuest } from "../../service/Quest";
 
@@ -34,24 +34,26 @@ export class QuestDetailComponent extends React.Component<Props, States> {
 
   render() {
     return (
-      <Box className="col-12 p-3" boxShadow={2}>
-        {this.props.editing
-          ? (
-            <form noValidate>
-              <div>
-                <TextField className="m-2" label="次の場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
-              </div>
-              <Button variant="contained" color="primary" onClick={this.save.bind(this)}>保存</Button>
-            </form>
-          ) : (
-            <>
-              {!this.props.quest.id ? null : (
-                <Button variant="contained" color="primary">変更</Button>
-              )}
-            </>
-          )
-        }
-      </Box>
+      <Grid item>
+        <Paper className="p-3" elevation={3}>
+          {this.props.editing
+            ? (
+              <form noValidate>
+                <div>
+                  <TextField className="m-2" label="次の場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
+                </div>
+                <Button variant="contained" color="primary" onClick={this.save.bind(this)}>保存</Button>
+              </form>
+            ) : (
+              <>
+                {!this.props.quest.id ? null : (
+                  <Button variant="contained" color="primary">変更</Button>
+                )}
+              </>
+            )
+          }
+        </Paper>
+      </Grid>
     );
   }
 }

@@ -11,7 +11,7 @@ export class QuestService extends HttpService {
   protected basePath: string = "quest";
 
   list() {
-    return this.axios.get<IQuest[]>(this.basePath);
+    return this.axios.get<{ [k: string]: IQuest }>(this.basePath);
   }
 
   detail(id: number) {
