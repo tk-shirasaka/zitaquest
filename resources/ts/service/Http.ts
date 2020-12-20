@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 export class HttpService {
-  private axios: AxiosInstance;
+  protected axios: AxiosInstance;
 
   constructor() {
     this.axios = axios.create({
@@ -10,7 +10,9 @@ export class HttpService {
     })
   }
 
-  get(path: string, params: Object = {}) {
-    return this.axios.get(path, { params });
-  }
+  list() { }
+
+  detail(_: number) { }
+
+  save(_: any) { }
 }
