@@ -14,8 +14,6 @@ class QuestionController extends Controller
     public function store()
     {
         $params = request()->all();
-        $model = Question::firstOrNew(['id' => $params['id'] ?? null], $params);
-
-        return $model->save();
+        return Question::updateOrCreate(['id' => $params['id'] ?? null], $params);
     }
 }

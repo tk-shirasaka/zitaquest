@@ -11,7 +11,6 @@ interface Props {
 
 interface States {
   questions: { [k: string]: IQuestion };
-  editing: string;
 }
 
 export class QuestionComponent extends React.Component<Props, States> {
@@ -20,7 +19,7 @@ export class QuestionComponent extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { questions: {}, editing: "" };
+    this.state = { questions: {} };
     this.questionService.list().then(res => {
       this.setState({ questions: res.data });
     });
@@ -28,12 +27,12 @@ export class QuestionComponent extends React.Component<Props, States> {
 
   private add() {
     const question: IQuestion = {} as IQuestion;
-    const editing = (Object.keys(this.state.questions).length + 1).toString();
+    const index = (Object.keys(this.state.questions).length + 1).toString();
     const { questions } = this.state;
 
-    questions[editing] = question;
+    questions[index] = question;
 
-    this.setState({ questions, editing });
+    this.setState({ questions });
   }
 
   render() {
@@ -46,16 +45,15 @@ export class QuestionComponent extends React.Component<Props, States> {
 
         <Grid container direction="column" spacing={2}>
           {Object.keys(this.state.questions).map(id => (
-            <QuestionDetailComponent key={id} question={this.state.questions[id]} editing={id === this.state.editing} />
+            <QuestionDetailComponent key={id} question={this.state.questions[id]} />
           ))}
         </Grid>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.add.bind(this)}
-          disabled={this.state.editing !== ""}
-        >問題を追加</Button>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={this.add.bind(this)}>問題を追加</Button>
+          </Grid>
+        </Grid>
       </>
     );
   }

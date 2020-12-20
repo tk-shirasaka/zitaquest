@@ -8,14 +8,16 @@ class QuestController extends Controller
 {
     public function index()
     {
-        return Quest::all()->keyBy('id');
+        return Quest::all();
     }
 
     public function store()
     {
-        $params = request()->all();
-        $model = Quest::firstOrNew(['id' => $params['id'] ?? null], $params);
+        collect(request()->all())->map(function($params, $no) {
+            $params['no'] = $no + 1;
+            Quest::updateOrCreate(['id' => $params['id'] ?? null], $params);
+        });
 
-        return $model->save();
+        return Quest::all();
     }
 }

@@ -10,8 +10,7 @@ interface Props {
 }
 
 interface States {
-  quests: { [k: string]: IQuest };
-  editing: string;
+  quests: IQuest[];
 }
 
 export class QuestComponent extends React.Component<Props, States> {
@@ -20,7 +19,7 @@ export class QuestComponent extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { quests: {}, editing: "" };
+    this.state = { quests: [] };
     this.questService.list().then(res => {
       this.setState({ quests: res.data });
     });
@@ -28,13 +27,15 @@ export class QuestComponent extends React.Component<Props, States> {
 
   private add() {
     const quest: IQuest = {} as IQuest;
-    const editing = (Object.keys(this.state.quests).length + 1).toString();
-    const { quests } = this.state
+    const quests = [ ...this.state.quests, quest ];
 
-    quest.no = +editing;
-    quests[editing] = quest;
+    this.setState({ quests });
+  }
 
-    this.setState({ quests, editing });
+  save() {
+    this.questService.save(this.state.quests).then(res => {
+      this.setState({ quests: res.data });
+    });
   }
 
   render() {
@@ -46,17 +47,19 @@ export class QuestComponent extends React.Component<Props, States> {
         </Breadcrumbs>
 
         <Grid container direction="column" spacing={2}>
-          {Object.keys(this.state.quests).map(id => (
-            <QuestDetailComponent key={id} quest={this.state.quests[id]} editing={id === this.state.editing} />
+          {this.state.quests.map((quest, i) => (
+            <QuestDetailComponent key={i} quest={quest} />
           ))}
         </Grid>
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={this.add.bind(this)}
-          disabled={this.state.editing !== ""}
-        >問題を追加</Button>
+        <Grid container spacing={2}>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={this.add.bind(this)}>問題を追加</Button>
+          </Grid>
+          <Grid item>
+            <Button variant="contained" color="primary" onClick={this.save.bind(this)}>保存</Button>
+          </Grid>
+        </Grid>
       </>
     );
   }
