@@ -4,6 +4,7 @@ import { Grid, Typography } from "@material-ui/core";
 
 import { GameStartComponent } from "./Start";
 import { GameFindComponent } from "./Find";
+import { GameAnswerComponent } from "./Answer";
 
 interface Props {
 }
@@ -32,6 +33,7 @@ export class GameComponent extends React.Component<Props, States> {
 
         <GameStartComponent />
         <GameFindComponent />
+        <GameAnswerComponent />
       </>
     );
   }

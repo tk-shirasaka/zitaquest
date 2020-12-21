@@ -4,6 +4,8 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 
 import jsqr from "jsqr";
 
+import { GameService } from "../../service/Game";
+
 interface Props {
 }
 
@@ -15,6 +17,7 @@ interface States {
 }
 
 export class GameFindComponent extends React.Component<Props, States> {
+  private gameService: GameService = new GameService;
   private video: RefObject<HTMLVideoElement>;
   private canvas: RefObject<HTMLCanvasElement>;
   private timer1: number;
@@ -87,9 +90,7 @@ export class GameFindComponent extends React.Component<Props, States> {
         </Grid>
         <Grid item xs>
           <Typography className="text-center" variant="h2">
-            { !hours ? null : `${hours}時間` }
-            { !hours && !minutes ? null : `${minutes}分` }
-            { `${seconds}秒` }
+            { this.gameService.time2str(hours, minutes, seconds) }
           </Typography>
         </Grid>
         <Grid item xs>
