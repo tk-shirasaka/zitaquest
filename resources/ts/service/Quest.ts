@@ -8,7 +8,7 @@ export interface IQuest {
 }
 
 export class QuestService extends HttpService {
-  protected basePath: string = "quest";
+  private basePath: string = "quest";
 
   list() {
     return this.axios.get<IQuest[]>(this.basePath);
