@@ -5,6 +5,7 @@ export interface IQuestion {
   level: number;
   question: string;
   hint: string;
+  answer: string;
 }
 
 export class QuestionService extends HttpService {
