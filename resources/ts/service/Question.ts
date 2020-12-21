@@ -15,10 +15,6 @@ export class QuestionService extends HttpService {
     return this.axios.get<{ [k: string]: IQuestion }>(this.basePath);
   }
 
-  detail(id: number) {
-    return this.axios.get<IQuestion>(`{this.basePath}/${id}`);
-  }
-
   save(data: IQuestion) {
     return this.axios.post<IQuestion>(this.basePath, data);
   }

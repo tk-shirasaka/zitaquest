@@ -14,10 +14,6 @@ export class QuestService extends HttpService {
     return this.axios.get<IQuest[]>(this.basePath);
   }
 
-  detail(id: number) {
-    return this.axios.get<IQuest>(`{this.basePath}/${id}`);
-  }
-
   save(data: IQuest[]) {
     return this.axios.post<IQuest[]>(this.basePath, data);
   }

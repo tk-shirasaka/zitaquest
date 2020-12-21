@@ -14,7 +14,7 @@ interface States {
 }
 
 export class QuestionComponent extends React.Component<Props, States> {
-  questionService: QuestionService = new QuestionService;
+  private questionService: QuestionService = new QuestionService;
 
   constructor(props: Props) {
     super(props);

@@ -22,7 +22,7 @@ interface States {
 }
 
 export class QuestionDetailComponent extends React.Component<Props, States> {
-  questionService: QuestionService = new QuestionService;
+  private questionService: QuestionService = new QuestionService;
 
   constructor(props: Props) {
     super(props);
@@ -30,31 +30,31 @@ export class QuestionDetailComponent extends React.Component<Props, States> {
     this.state = { question: { ...props.question }};
   }
 
-  onChangeLevel(event: ChangeEvent<{ value: unknown }>) {
+  private onChangeLevel(event: ChangeEvent<{ value: unknown }>) {
     const question = { ...this.state.question, level: +(event.target as HTMLInputElement).value };
 
     this.setState({ question });
   }
 
-  onChangeQuestion(event: ChangeEvent) {
+  private onChangeQuestion(event: ChangeEvent) {
     const question = { ...this.state.question, question: (event.target as HTMLInputElement).value };
 
     this.setState({ question });
   }
 
-  onChangeHint(event: ChangeEvent) {
+  private onChangeHint(event: ChangeEvent) {
     const question = { ...this.state.question, hint: (event.target as HTMLInputElement).value };
 
     this.setState({ question });
   }
 
-  onChangeAnswer(event: ChangeEvent) {
+  private onChangeAnswer(event: ChangeEvent) {
     const question = { ...this.state.question, answer: (event.target as HTMLInputElement).value };
 
     this.setState({ question });
   }
 
-  save() {
+  private save() {
     this.questionService.save(this.state.question);
   }
 

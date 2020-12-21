@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import { QuestionService, IQuestion } from "../../service/Question";
-import { QuestService, IQuest } from "../../service/Quest";
+import { IQuest } from "../../service/Quest";
 
 interface Props {
   quest: IQuest;
@@ -23,8 +23,7 @@ interface States {
 }
 
 export class QuestDetailComponent extends React.Component<Props, States> {
-  questionService: QuestionService = new QuestionService;
-  questService: QuestService = new QuestService;
+  private questionService: QuestionService = new QuestionService;
 
   constructor(props: Props) {
     super(props);
@@ -35,14 +34,14 @@ export class QuestDetailComponent extends React.Component<Props, States> {
     });
   }
 
-  onChangeQuestion(event: ChangeEvent<{ value: unknown }>) {
+  private onChangeQuestion(event: ChangeEvent<{ value: unknown }>) {
     const quest = this.state.quest;
     quest.question_id = +(event.target as HTMLInputElement).value;
 
     this.setState({ quest });
   }
 
-  onChangePlace(event: ChangeEvent) {
+  private onChangePlace(event: ChangeEvent) {
     const quest = this.state.quest;
     quest.place = (event.target as HTMLInputElement).value;
 

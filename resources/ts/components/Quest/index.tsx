@@ -14,7 +14,7 @@ interface States {
 }
 
 export class QuestComponent extends React.Component<Props, States> {
-  questService: QuestService = new QuestService;
+  private questService: QuestService = new QuestService;
 
   constructor(props: Props) {
     super(props);
@@ -32,7 +32,7 @@ export class QuestComponent extends React.Component<Props, States> {
     this.setState({ quests });
   }
 
-  save() {
+  private save() {
     this.questService.save(this.state.quests).then(res => {
       this.setState({ quests: res.data });
     });
