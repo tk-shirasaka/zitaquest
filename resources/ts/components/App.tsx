@@ -9,6 +9,7 @@ import {
 import { TopComponent } from "./Top";
 import { QuestionComponent } from "./Question";
 import { QuestComponent } from "./Quest";
+import { GameComponent } from "./Game";
 
 export const AppComponent = () => (
   <Router>
@@ -27,6 +28,7 @@ export const AppComponent = () => (
       </Route>
 
       <Route path="/game">
+        <GameComponent />
       </Route>
     </Switch>
   </Router>
