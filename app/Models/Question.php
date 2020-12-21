@@ -14,5 +14,6 @@ class Question extends Model
         'level',
         'question',
         'hint',
+        'answer',
     ];
 }

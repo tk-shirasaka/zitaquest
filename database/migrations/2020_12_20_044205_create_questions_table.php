@@ -18,6 +18,7 @@ class CreateQuestionsTable extends Migration
             $table->tinyInteger('level');
             $table->text('question');
             $table->string('hint', 100);
+            $table->string('answer', 100);
             $table->timestamps();
         });
     }

@@ -48,6 +48,12 @@ export class QuestionDetailComponent extends React.Component<Props, States> {
     this.setState({ question });
   }
 
+  onChangeAnswer(event: ChangeEvent) {
+    const question = { ...this.state.question, answer: (event.target as HTMLInputElement).value };
+
+    this.setState({ question });
+  }
+
   save() {
     this.questionService.save(this.state.question);
   }
@@ -70,6 +76,9 @@ export class QuestionDetailComponent extends React.Component<Props, States> {
             </FormControl>
             <FormControl className="m-2">
               <TextField label="ヒント" multiline rows={5} defaultValue={this.state.question.hint} onChange={this.onChangeHint.bind(this)} />
+            </FormControl>
+            <FormControl className="m-2">
+              <TextField label="回答" multiline rows={5} defaultValue={this.state.question.answer} onChange={this.onChangeAnswer.bind(this)} />
             </FormControl>
           </form>
           <Button variant="contained" color="primary" onClick={this.save.bind(this)}>保存</Button>

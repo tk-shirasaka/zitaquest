@@ -63,7 +63,7 @@ export class QuestDetailComponent extends React.Component<Props, States> {
               </Select>
             </FormControl>
             <FormControl className="m-2">
-              <TextField label="次の場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
+              <TextField label="隠し場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
             </FormControl>
           </form>
           {this.state.questions[this.state.quest.question_id] && (
