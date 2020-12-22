@@ -2,9 +2,10 @@ import React, { ChangeEvent } from "react";
 
 import { Grid, Button, Typography, TextField } from "@material-ui/core";
 
-import { GameService } from "../../service/Game";
+import { GameService, IRecord } from "../../service/Game";
 
 interface Props {
+  record: IRecord;
 }
 
 interface States {
@@ -22,7 +23,7 @@ export class GameAnswerComponent extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { point: 0, hours: 0, minutes: 0, seconds: 0, answer: "" };
+    this.state = { point: 0, ...this.gameService.difftime(props.record.updated_at), answer: "" };
     this.timer1 = +setInterval(this.countUp.bind(this), 1000);
   }
 

@@ -10,6 +10,9 @@ export interface IRecord {
   find_time: string;
   answer_point: number;
   answer_time: string;
+
+  created_at: string;
+  updated_at: string;
 };
 
 export interface IGame {
@@ -28,6 +31,19 @@ export class GameService extends HttpService {
       !hours && !minutes ? "" : `${minutes}分`,
       `${seconds}秒`,
     ].join("");
+  }
+
+  difftime(diff: string) {
+    const now = new Date;
+    const start = new Date(diff);
+
+    const time = new Date((now.getTime() - start.getTime()));
+
+    return {
+      hours: time.getHours(),
+      minutes: time.getMinutes(),
+      seconds: time.getSeconds(),
+    };
   }
 
   index() {

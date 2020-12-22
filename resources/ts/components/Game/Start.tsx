@@ -19,7 +19,7 @@ export class GameStartComponent extends React.Component<Props, States> {
     super(props);
   }
 
-  onStart() {
+  private onStart() {
     this.gameService.start().then(res => {
       this.props.refresh(res.data);
     });

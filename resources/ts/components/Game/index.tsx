@@ -32,7 +32,7 @@ export class GameComponent extends React.Component<Props, States> {
 
   private renderComponent(game: IGame) {
     if (game.active?.state === 1) {
-      return <GameFindComponent />;
+      return <GameFindComponent record={game.active} />;
     } else if (game.active?.state === 2) {
       return <GameAnswerComponent />;
     } else {

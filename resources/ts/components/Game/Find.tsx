@@ -4,9 +4,10 @@ import { Grid, Paper, Typography } from "@material-ui/core";
 
 import jsqr from "jsqr";
 
-import { GameService } from "../../service/Game";
+import { GameService, IRecord } from "../../service/Game";
 
 interface Props {
+  record: IRecord;
 }
 
 interface States {
@@ -26,7 +27,7 @@ export class GameFindComponent extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { point: 0, hours: 0, minutes: 0, seconds: 0 };
+    this.state = { point: 0, ...this.gameService.difftime(props.record.created_at) };
     this.video = createRef<HTMLVideoElement>();
     this.canvas = createRef<HTMLCanvasElement>();
     this.timer1 = +setInterval(this.countUp.bind(this), 1000);
@@ -85,6 +86,11 @@ export class GameFindComponent extends React.Component<Props, States> {
 
     return (
       <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
+        <Grid item xs>
+          <Paper className="p-2 bg-light" elevation={3}>
+            <Typography variant="h3">つぎは「{ this.props.record.quest.place }」にあるよ</Typography>
+          </Paper>
+        </Grid>
         <Grid item xs>
           <Typography className={`text-${color}`} variant="h2">{ point } ポイント</Typography>
         </Grid>
