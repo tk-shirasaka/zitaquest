@@ -1,15 +1,18 @@
 import { HttpService } from "./Http";
 
+interface IRecord {
+  state: number;
+  find_point: number;
+  find_time: string;
+  answer_point: number;
+  answer_time: string;
+};
+
 export interface IGame {
   id: number;
   state: number;
-  records: {
-    state: number;
-    find_point: number;
-    find_time: string;
-    answer_point: number;
-    answer_time: string;
-  }[];
+  active: IRecord | null;
+  records: IRecord[];
 }
 
 export class GameService extends HttpService {
@@ -23,8 +26,12 @@ export class GameService extends HttpService {
     ].join("");
   }
 
-  last() {
-    return this.axios.get<IGame | "">(this.basePath);
+  index() {
+    return this.axios.get<IGame>(this.basePath);
+  }
+
+  start() {
+    return this.axios.post<IGame>(this.basePath);
   }
 
   find(point: number, time: string, code: string) {

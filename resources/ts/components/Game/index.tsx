@@ -2,6 +2,7 @@ import React from "react";
 
 import { Grid, Typography } from "@material-ui/core";
 
+import { GameService, IGame } from "../../service/Game";
 import { GameStartComponent } from "./Start";
 import { GameFindComponent } from "./Find";
 import { GameAnswerComponent } from "./Answer";
@@ -10,14 +11,38 @@ interface Props {
 }
 
 interface States {
+  game?: IGame;
 }
 
 export class GameComponent extends React.Component<Props, States> {
+  private gameService: GameService = new GameService;
+
   constructor(props: Props) {
     super(props);
+
+    this.state = {};
+    this.gameService.index().then(res => {
+      this.setState({ game: res.data });
+    });
+  }
+
+  private refresh(game: IGame) {
+    this.setState({ game });
+  }
+
+  private renderComponent(game: IGame) {
+    if (game.active?.state === 1) {
+      return <GameFindComponent />;
+    } else if (game.active?.state === 2) {
+      return <GameAnswerComponent />;
+    } else {
+      return <GameStartComponent game={game} refresh={this.refresh.bind(this)} />;
+    }
   }
 
   render() {
+    if (!this.state.game) return null;
+
     return (
       <>
         <Typography variant="h1" gutterBottom>
@@ -31,9 +56,7 @@ export class GameComponent extends React.Component<Props, States> {
           </Grid>
         </Typography>
 
-        <GameStartComponent />
-        <GameFindComponent />
-        <GameAnswerComponent />
+        { this.renderComponent(this.state.game) }
       </>
     );
   }

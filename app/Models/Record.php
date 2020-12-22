@@ -8,4 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Record extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'quest_id',
+        'state',
+    ];
+
+    protected $appends = [
+        'state_name',
+    ];
+
+    public function getStateNameAttribute()
+    {
+        $status = $this->state;
+        if ($status === 0) return '待機';
+        if ($status === 1) return '捜索中';
+        if ($status === 2) return '解答中';
+        if ($status === 3) return '終了';
+    }
+
+    public function quest()
+    {
+        return $this->hasOne(Quest::class);
+    }
 }
