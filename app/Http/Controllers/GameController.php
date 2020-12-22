@@ -37,15 +37,15 @@ class GameController extends Controller
     public function find()
     {
         $params = request()->input();
-        $game = Game::find(['state' => 1]);
+        $game = Game::where('state', 1)->first();
 
         if ($game->active->quest->code !== $params['code']) {
             throw new \Exception;
         }
 
         $game->active->state = 2;
-        $game->active->find_point = $params['find_point'];
-        $game->active->find_time = $params['find_time'];
+        $game->active->find_point = $params['point'];
+        $game->active->find_time = $params['time'];
         $game->active->save();
 
         return $this->loadRelation($game);
@@ -54,15 +54,15 @@ class GameController extends Controller
     public function answer()
     {
         $params = request()->input();
-        $game = Game::find(['state' => 1]);
+        $game = Game::where('state', 1)->first();
 
-        if ($game->active->quest->code !== $params['code']) {
+        if ($game->active->quest->code !== $params['answer']) {
             throw new \Exception;
         }
 
         $game->active->state = 3;
-        $game->active->find_point = $params['find_point'];
-        $game->active->find_time = $params['find_time'];
+        $game->active->answer_point = $params['point'];
+        $game->active->answer_time = $params['time'];
         $game->active->save();
         $game = $this->loadRelation($game);
 

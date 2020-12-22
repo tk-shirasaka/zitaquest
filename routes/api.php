@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('question', App\Http\Controllers\QuestionController::class);
 Route::resource('quest', App\Http\Controllers\QuestController::class);
 Route::resource('game', App\Http\Controllers\GameController::class);
+Route::post('game/find', [App\Http\Controllers\GameController::class, 'find']);
+Route::post('game/answer', [App\Http\Controllers\GameController::class, 'answer']);
