@@ -14,5 +14,6 @@ class Quest extends Model
         'question_id',
         'no',
         'place',
+        'code',
     ];
 }

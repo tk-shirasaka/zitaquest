@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Quest;
 
 class QuestController extends Controller
@@ -15,7 +16,11 @@ class QuestController extends Controller
     {
         collect(request()->all())->map(function($params, $no) {
             $params['no'] = $no + 1;
-            Quest::updateOrCreate(['id' => $params['id'] ?? null], $params);
+            if (isset($params['id'])) {
+                Quest::find($params['id'])->fill($params)->save();
+            } else {
+                Quest::create($params + ['code' => Str::uuid()]);
+            }
         });
 
         return Quest::all();

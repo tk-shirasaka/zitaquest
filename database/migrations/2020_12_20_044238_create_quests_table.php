@@ -18,6 +18,7 @@ class CreateQuestsTable extends Migration
             $table->foreignId('question_id')->references('id')->on('questions');
             $table->tinyInteger('no');
             $table->string('place', 100);
+            $table->string('code', 100);
             $table->timestamps();
         });
     }

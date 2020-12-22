@@ -5,6 +5,7 @@ export interface IQuest {
   question_id: number;
   no: number;
   place: string;
+  code: string;
 }
 
 export class QuestService extends HttpService {
