@@ -1,6 +1,10 @@
 import { HttpService } from "./Http";
+import { IQuestion } from "./Question";
+import { IQuest } from "./Quest";
 
-interface IRecord {
+export interface IRecord {
+  question: IQuestion;
+  quest: IQuest;
   state: number;
   find_point: number;
   find_time: string;

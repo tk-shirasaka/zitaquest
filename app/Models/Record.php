@@ -10,6 +10,7 @@ class Record extends Model
     use HasFactory;
 
     protected $fillable = [
+        'question_id',
         'quest_id',
         'state',
     ];
@@ -27,8 +28,13 @@ class Record extends Model
         if ($status === 3) return '終了';
     }
 
+    public function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
+
     public function quest()
     {
-        return $this->hasOne(Quest::class);
+        return $this->belongsTo(Quest::class);
     }
 }
