@@ -1,16 +1,18 @@
 import React, { createRef, RefObject } from "react";
 
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography, Snackbar } from "@material-ui/core";
 
 import jsqr from "jsqr";
 
-import { GameService, IRecord } from "../../service/Game";
+import { GameService, IRecord, IGame } from "../../service/Game";
 
 interface Props {
   record: IRecord;
+  refresh: (game: IGame) => void;
 }
 
 interface States {
+  error: boolean;
   point: number;
   hours: number;
   minutes: number;
@@ -27,7 +29,7 @@ export class GameFindComponent extends React.Component<Props, States> {
   constructor(props: Props) {
     super(props);
 
-    this.state = { point: 0, ...this.gameService.difftime(props.record.created_at) };
+    this.state = { error: false, point: 0, ...this.gameService.difftime(props.record.created_at) };
     this.video = createRef<HTMLVideoElement>();
     this.canvas = createRef<HTMLCanvasElement>();
     this.timer1 = +setInterval(this.countUp.bind(this), 1000);
@@ -62,6 +64,10 @@ export class GameFindComponent extends React.Component<Props, States> {
     this.setState({ seconds, minutes, hours, point });
   }
 
+  private offError() {
+    this.setState({ error: false });
+  }
+
   private qrReader() {
     if (this.video.current && this.canvas.current) {
       const video = this.video.current
@@ -74,7 +80,13 @@ export class GameFindComponent extends React.Component<Props, States> {
         const code =  jsqr(image.data, video.width, video.height);
 
         if (code) {
-          console.log(code.data);
+          const { point, hours, minutes, seconds } = this.state;
+          const time = this.gameService.time2str(hours, minutes, seconds);
+          this.gameService.find(point, time, code.data).then(res => {
+            this.props.refresh(res.data);
+          }).catch(() => {
+            this.setState({ error: true });
+          });
         }
       }
     }
@@ -105,6 +117,14 @@ export class GameFindComponent extends React.Component<Props, States> {
             <canvas width="300" height="260" ref={this.canvas} style={{ width: 0, height: 0 }}></canvas>
           </Paper>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={this.state.error}
+          autoHideDuration={2000}
+          onClose={this.offError.bind(this)}
+          message="QRコードがちがいます"
+        />
       </Grid>
     );
   }

@@ -32,9 +32,9 @@ export class GameComponent extends React.Component<Props, States> {
 
   private renderComponent(game: IGame) {
     if (game.active?.state === 1) {
-      return <GameFindComponent record={game.active} />;
+      return <GameFindComponent record={game.active} refresh={this.refresh.bind(this)} />;
     } else if (game.active?.state === 2) {
-      return <GameAnswerComponent />;
+      return <GameAnswerComponent record={game.active} refresh={this.refresh.bind(this)} />;
     } else {
       return <GameStartComponent game={game} refresh={this.refresh.bind(this)} />;
     }

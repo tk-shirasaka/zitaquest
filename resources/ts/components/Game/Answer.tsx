@@ -2,10 +2,11 @@ import React, { ChangeEvent } from "react";
 
 import { Grid, Button, Typography, TextField } from "@material-ui/core";
 
-import { GameService, IRecord } from "../../service/Game";
+import { GameService, IRecord, IGame } from "../../service/Game";
 
 interface Props {
   record: IRecord;
+  refresh: (game: IGame) => void;
 }
 
 interface States {
