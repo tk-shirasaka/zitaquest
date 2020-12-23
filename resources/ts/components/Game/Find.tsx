@@ -36,7 +36,7 @@ export class GameFindComponent extends React.Component<Props, States> {
 
       navigator.mediaDevices.getUserMedia({
         audio: false,
-        video: { width: 300, height: 260 },
+        video: { facingMode: "environment", width: 300, height: 260 },
       }).then(stream => {
         video.srcObject = stream;
         video.onloadedmetadata = () => video.play();
@@ -78,9 +78,10 @@ export class GameFindComponent extends React.Component<Props, States> {
     return (
       <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
         <Grid item xs>
-          <Paper className="p-2 bg-light" elevation={3}>
-            <Typography variant="h3">つぎは「{ this.props.record.quest.place }」にあるよ</Typography>
-          </Paper>
+          <Typography color="secondary" variant="h2">せいかい</Typography>
+        </Grid>
+        <Grid item xs>
+          <Typography variant="h4">「{ this.props.record.quest.place }」にむかってね</Typography>
         </Grid>
         <Grid item xs>
           <Paper className="p-1" elevation={3}>

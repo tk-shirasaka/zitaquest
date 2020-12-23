@@ -62,17 +62,27 @@ export class QuestDetailComponent extends React.Component<Props, States> {
               </Select>
             </FormControl>
             <FormControl className="m-2" style={{ minWidth: 120 }}>
-              <TextField label="隠し場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
+              <TextField label="次の場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
             </FormControl>
           </form>
+          <Grid container spacing={2}>
           {this.state.questions[this.state.quest.question_id] && (
-            <div>
+            <Grid item xs>
               問題文
               <Paper className="bg-light">
-                <pre className="m-2 p-2">{ this.state.questions[this.state.quest.question_id].question }</pre>
+                <pre className="p-2">{ this.state.questions[this.state.quest.question_id].question }</pre>
               </Paper>
-            </div>
+            </Grid>
           )}
+          {this.state.quest.code && (
+            <Grid item xs>
+              QRコード
+              <Paper className="bg-light">
+                <p className="p-2">{ this.state.quest.code }</p>
+              </Paper>
+            </Grid>
+          )}
+          </Grid>
         </Paper>
       </Grid>
     );
