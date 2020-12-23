@@ -53,7 +53,7 @@ export class QuestDetailComponent extends React.Component<Props, States> {
       <Grid item>
         <Paper className="p-3" elevation={3}>
           <form noValidate>
-            <FormControl className="m-2">
+            <FormControl className="m-2" style={{ minWidth: 120 }}>
               <InputLabel>問題</InputLabel>
               <Select value={this.state.quest.question_id} onChange={this.onChangeQuestion.bind(this)}>
                 {Object.keys(this.state.questions).map((id, i) => (
@@ -61,7 +61,7 @@ export class QuestDetailComponent extends React.Component<Props, States> {
                 ))}
               </Select>
             </FormControl>
-            <FormControl className="m-2">
+            <FormControl className="m-2" style={{ minWidth: 120 }}>
               <TextField label="隠し場所" defaultValue={this.state.quest.place} onChange={this.onChangePlace.bind(this)} />
             </FormControl>
           </form>
