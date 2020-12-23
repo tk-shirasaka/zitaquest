@@ -27,7 +27,7 @@ export class QuestionComponent extends React.Component<Props, States> {
 
   private add() {
     const question: IQuestion = {} as IQuestion;
-    const index = (Object.keys(this.state.questions).length + 1).toString();
+    const index = (Math.max(...Object.keys(this.state.questions).map(k => +k)) + 1).toString();
     const { questions } = this.state;
 
     questions[index] = question;
