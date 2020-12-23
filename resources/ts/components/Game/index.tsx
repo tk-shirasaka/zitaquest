@@ -45,7 +45,7 @@ export class GameComponent extends React.Component<Props, States> {
 
     return (
       <>
-        <Typography variant="h1" gutterBottom>
+        <Typography variant="h1" gutterBottom style={{ fontFamily: "Nico Moji" }}>
           <Grid container justify="center" spacing={2}>
             <Grid className="text-info" item xs>ジ</Grid>
             <Grid className="text-info" item xs>タ</Grid>
