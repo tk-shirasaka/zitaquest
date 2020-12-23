@@ -14,6 +14,11 @@ class QuestionController extends Controller
     public function store()
     {
         $params = request()->all();
-        return Question::updateOrCreate(['id' => $params['id'] ?? null], $params);
+
+        if (isset($params['id'])) {
+            return Question::find($params['id'])->fill($params)->save();
+        } else {
+            return Question::create($params);
+        }
     }
 }
