@@ -31,7 +31,7 @@ class Game extends Model
 
     public function active()
     {
-        return $this->hasOne(Record::class)->whereIn('state', [1, 2]);
+        return $this->hasOne(Record::class)->whereIn('state', [0, 1])->orderBy('id');
     }
 
     public function records()

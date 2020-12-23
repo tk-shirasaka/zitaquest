@@ -22,10 +22,9 @@ class Record extends Model
     public function getStateNameAttribute()
     {
         $status = $this->state;
-        if ($status === 0) return '待機';
+        if ($status === 0) return '解答中';
         if ($status === 1) return '捜索中';
-        if ($status === 2) return '解答中';
-        if ($status === 3) return '終了';
+        if ($status === 2) return '終了';
     }
 
     public function question()

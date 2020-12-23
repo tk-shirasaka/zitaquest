@@ -26,10 +26,25 @@ class GameController extends Controller
     {
         $game = Game::create(['state' => 1]);
         $game->records()->saveMany(
-            Quest::all(['id', 'question_id'])->map(function ($record, $key) {
-                return new Record(['quest_id' => $record->id, 'question_id' => $record->question_id, 'state' => $key ? 0 : 1]);
+            Quest::all(['id', 'question_id'])->map(function ($record) {
+                return new Record(['quest_id' => $record->id, 'question_id' => $record->question_id, 'state' => 0]);
             })
         );
+
+        return $this->loadRelation($game);
+    }
+
+    public function answer()
+    {
+        $params = request()->input();
+        $game = Game::where('state', 1)->first();
+
+        if ($game->active->question->answer !== $params['answer']) {
+            throw new \Exception;
+        }
+
+        $game->active->state = 1;
+        $game->active->save();
 
         return $this->loadRelation($game);
     }
@@ -44,21 +59,6 @@ class GameController extends Controller
         }
 
         $game->active->state = 2;
-        $game->active->save();
-
-        return $this->loadRelation($game);
-    }
-
-    public function answer()
-    {
-        $params = request()->input();
-        $game = Game::where('state', 1)->first();
-
-        if ($game->active->quest->code !== $params['answer']) {
-            throw new \Exception;
-        }
-
-        $game->active->state = 3;
         $game->active->save();
         $game = $this->loadRelation($game);
 

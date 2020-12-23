@@ -25,11 +25,11 @@ export class GameService extends HttpService {
     return this.axios.post<IGame>(this.basePath);
   }
 
-  find(code: string) {
-    return this.axios.post<IGame>(`${this.basePath}/find`, { code });
-  }
-
   answer(answer: string) {
     return this.axios.post<IGame>(`${this.basePath}/answer`, { answer });
+  }
+
+  find(code: string) {
+    return this.axios.post<IGame>(`${this.basePath}/find`, { code });
   }
 }
