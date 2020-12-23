@@ -13,27 +13,21 @@ interface Props {
 
 interface States {
   error: boolean;
-  point: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
 }
 
 export class GameFindComponent extends React.Component<Props, States> {
   private gameService: GameService = new GameService;
   private video: RefObject<HTMLVideoElement>;
   private canvas: RefObject<HTMLCanvasElement>;
-  private timer1: number;
-  private timer2: number;
+  private timer: number;
 
   constructor(props: Props) {
     super(props);
 
-    this.state = { error: false, point: 0, ...this.gameService.difftime(props.record.created_at) };
+    this.state = { error: false };
     this.video = createRef<HTMLVideoElement>();
     this.canvas = createRef<HTMLCanvasElement>();
-    this.timer1 = +setInterval(this.countUp.bind(this), 1000);
-    this.timer2 = +setInterval(this.qrReader.bind(this), 300);
+    this.timer = +setInterval(this.qrReader.bind(this), 300);
   }
 
   componentDidMount() {
@@ -51,17 +45,7 @@ export class GameFindComponent extends React.Component<Props, States> {
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer1);
-    clearInterval(this.timer2);
-  }
-
-  private countUp() {
-    const seconds = (this.state.seconds + 1) % 60;
-    const minutes = (this.state.minutes + (seconds ? 0 : 1)) % 60;
-    const hours = this.state.hours + (seconds || minutes ? 0 : 1);
-    const point = (hours === 0 && minutes < 1) ? 10 : (hours === 0 && minutes < 3 ? 5 : 3);
-
-    this.setState({ seconds, minutes, hours, point });
+    clearInterval(this.timer);
   }
 
   private offError() {
@@ -80,9 +64,7 @@ export class GameFindComponent extends React.Component<Props, States> {
         const code =  jsqr(image.data, video.width, video.height);
 
         if (code) {
-          const { point, hours, minutes, seconds } = this.state;
-          const time = this.gameService.time2str(hours, minutes, seconds);
-          this.gameService.find(point, time, code.data).then(res => {
+          this.gameService.find(code.data).then(res => {
             this.props.refresh(res.data);
           }).catch(() => {
             this.setState({ error: true });
@@ -93,23 +75,12 @@ export class GameFindComponent extends React.Component<Props, States> {
   }
 
   render() {
-    const { point, hours, minutes, seconds } = this.state;
-    const color = point === 10 ? "success" : (point === 5 ? "warning" : "danger");
-
     return (
       <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
         <Grid item xs>
           <Paper className="p-2 bg-light" elevation={3}>
             <Typography variant="h3">つぎは「{ this.props.record.quest.place }」にあるよ</Typography>
           </Paper>
-        </Grid>
-        <Grid item xs>
-          <Typography className={`text-${color}`} variant="h2">{ point } ポイント</Typography>
-        </Grid>
-        <Grid item xs>
-          <Typography className="text-center" variant="h2">
-            { this.gameService.time2str(hours, minutes, seconds) }
-          </Typography>
         </Grid>
         <Grid item xs>
           <Paper className="p-1" elevation={3}>

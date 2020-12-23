@@ -44,8 +44,6 @@ class GameController extends Controller
         }
 
         $game->active->state = 2;
-        $game->active->find_point = $params['point'];
-        $game->active->find_time = $params['time'];
         $game->active->save();
 
         return $this->loadRelation($game);
@@ -61,8 +59,6 @@ class GameController extends Controller
         }
 
         $game->active->state = 3;
-        $game->active->answer_point = $params['point'];
-        $game->active->answer_time = $params['time'];
         $game->active->save();
         $game = $this->loadRelation($game);
 

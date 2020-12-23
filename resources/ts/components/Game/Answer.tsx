@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react";
 
-import { Grid, Button, Typography, TextField } from "@material-ui/core";
+import { Grid, Button, Typography, TextField, Snackbar } from "@material-ui/core";
 
 import { GameService, IRecord, IGame } from "../../service/Game";
 
@@ -10,35 +10,21 @@ interface Props {
 }
 
 interface States {
-  point: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
+  error: boolean;
   answer: string;
 }
 
 export class GameAnswerComponent extends React.Component<Props, States> {
   private gameService: GameService = new GameService;
-  private timer1: number;
 
   constructor(props: Props) {
     super(props);
 
-    this.state = { point: 0, ...this.gameService.difftime(props.record.updated_at), answer: "" };
-    this.timer1 = +setInterval(this.countUp.bind(this), 1000);
+    this.state = { error: false, answer: "" };
   }
 
-  componentWillUnmount() {
-    clearInterval(this.timer1);
-  }
-
-  private countUp() {
-    const seconds = (this.state.seconds + 1) % 60;
-    const minutes = (this.state.minutes + (seconds ? 0 : 1)) % 60;
-    const hours = this.state.hours + (seconds || minutes ? 0 : 1);
-    const point = (hours === 0 && minutes < 1) ? 10 : (hours === 0 && minutes < 3 ? 5 : 3);
-
-    this.setState({ seconds, minutes, hours, point });
+  private offError() {
+    this.setState({ error: false });
   }
 
   private onChangeAnswer(event: ChangeEvent) {
@@ -47,26 +33,34 @@ export class GameAnswerComponent extends React.Component<Props, States> {
     this.setState({ answer });
   }
 
-  render() {
-    const { point, hours, minutes, seconds } = this.state;
-    const color = point === 10 ? "success" : (point === 5 ? "warning" : "danger");
+  private sendAnswer() {
+    this.gameService.answer(this.state.answer).then(res => {
+      this.props.refresh(res.data);
+    }).catch(() => {
+      this.setState({ error: true, answer: "" });
+    });
+  }
 
+  render() {
     return (
       <Grid container direction="column" justify="center" alignItems="center" spacing={2}>
         <Grid item xs>
-          <Typography className={`text-${color}`} variant="h2">{ point } ポイント</Typography>
-        </Grid>
-        <Grid item xs>
-          <Typography className="text-center" variant="h2">
-            { this.gameService.time2str(hours, minutes, seconds) }
-          </Typography>
+          <Typography variant="h4">{ this.props.record.question.question }</Typography>
         </Grid>
         <Grid item xs>
           <TextField label="こたえ" helperText="ひらがなでこたえてね" defaultValue={this.state.answer} onChange={this.onChangeAnswer.bind(this)} />
         </Grid>
         <Grid item xs>
-          <Button variant="contained" color="primary">回答</Button>
+          <Button variant="contained" color="primary" onClick={this.sendAnswer.bind(this)}>回答</Button>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={this.state.error}
+          autoHideDuration={2000}
+          onClose={this.offError.bind(this)}
+          message="ざんねん"
+        />
       </Grid>
     );
   }

@@ -19,10 +19,6 @@ class CreateRecordsTable extends Migration
             $table->foreignId('question_id')->references('id')->on('questions');
             $table->foreignId('quest_id')->references('id')->on('quests');
             $table->tinyInteger('state')->default(0);
-            $table->smallInteger('find_point')->default(0);
-            $table->string('find_time', 10)->nullable();
-            $table->smallInteger('answer_point')->default(0);
-            $table->string('answer_time', 10)->nullable();
             $table->timestamps();
         });
     }
