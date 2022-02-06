@@ -10,6 +10,8 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
+import QRCode from "qrcode.react";
+
 import { QuestionService, IQuestion } from "../../service/Question";
 import { IQuest } from "../../service/Quest";
 
@@ -74,14 +76,7 @@ export class QuestDetailComponent extends React.Component<Props, States> {
               </Paper>
             </Grid>
           )}
-          {this.state.quest.code && (
-            <Grid item xs>
-              QRコード
-              <Paper className="bg-light">
-                <p className="p-2">{ this.state.quest.code }</p>
-              </Paper>
-            </Grid>
-          )}
+          {this.state.quest.code && <QRCode value={this.state.quest.code} includeMargin />}
           </Grid>
         </Paper>
       </Grid>
